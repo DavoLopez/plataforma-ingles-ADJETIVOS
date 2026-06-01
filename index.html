@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2 Adjectives Mastery Platform con IA</title>
+    <!-- Tailwind CSS para el diseño premium -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter para una excelente legibilidad -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos atractivos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Transiciones suaves */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        /* Personalización de barra de scroll en el buscador de palabras */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        /* Animación para cargas */
+        .ai-pulse {
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(99, 102, 241, 0.4); }
+            50% { border-color: rgba(236, 72, 153, 0.8); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/15 p-2.5 rounded-xl backdrop-blur-sm border border-white/20">
+                    <i class="fa-solid fa-brain text-3xl text-yellow-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">B2 Adjective Mastery <span class="bg-yellow-400 text-slate-900 text-xs px-2.5 py-0.5 rounded-full uppercase ml-1 font-black shadow-sm">AI Enhanced</span></h1>
+                    <p class="text-indigo-100 text-xs sm:text-sm mt-0.5 font-medium">Plataforma de Estudio Completa: Copias #20, #21, Roadmap B2 & Tutor IA</p>
+                </div>
+            </div>
+            <!-- Marcador de Progreso Global -->
+            <div class="bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10 text-center md:text-right">
+                <span class="text-xs uppercase tracking-wider text-indigo-200 block font-bold">Tu Progreso de Estudio</span>
+                <span id="score-summary" class="text-lg font-bold text-yellow-300">0 / 21 Respuestas</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="w-full lg:w-72 shrink-0 space-y-4">
+            <!-- MÓDULOS DE NAVEGACIÓN -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-2">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-3">Módulos de Estudio</h2>
+                
+                <button onclick="switchTab('teoria')" id="btn-teoria" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-sm transition bg-indigo-50 text-indigo-700 border-l-4 border-indigo-600">
+                    <i class="fa-solid fa-book-open text-base"></i>
+                    <span>📚 Teoría Completa</span>
+                </button>
+                
+                <button onclick="switchTab('vocabulario')" id="btn-vocabulario" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-sm transition text-slate-600 hover:bg-slate-100">
+                    <i class="fa-solid fa-arrow-down-a-z text-base"></i>
+                    <span>🔤 Diccionario B2</span>
+                </button>
+                
+                <button onclick="switchTab('practica-blankets')" id="btn-practica-blankets" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-sm transition text-slate-600 hover:bg-slate-100">
+                    <i class="fa-solid fa-pen-clip text-base"></i>
+                    <span>✏️ Ejercicio 1: Rellenar</span>
+                </button>
+                
+                <button onclick="switchTab('practica-ordenar')" id="btn-practica-ordenar" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-sm transition text-slate-600 hover:bg-slate-100">
+                    <i class="fa-solid fa-arrows-spin text-base"></i>
+                    <span>🔄 Ejercicio 2: Ordenar</span>
+                </button>
+
+                <button onclick="switchTab('practica-listening')" id="btn-practica-listening" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-sm transition text-slate-600 hover:bg-slate-100">
+                    <i class="fa-solid fa-volume-high text-base"></i>
+                    <span>🔊 Ejercicio 3: Escucha (IA)</span>
+                </button>
+
+                <button onclick="switchTab('practica-reading')" id="btn-practica-reading" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-sm transition text-slate-600 hover:bg-slate-100">
+                    <i class="fa-solid fa-newspaper text-base"></i>
+                    <span>📖 Ejercicio 4: Reading</span>
+                </button>
+
+                <div class="border-t border-slate-100 my-2 pt-2"></div>
+
+                <button onclick="switchTab('tutor-ia')" id="btn-tutor-ia" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-bold text-sm transition text-pink-600 hover:bg-pink-50 bg-gradient-to-r from-pink-50/10 to-purple-50/10 border-l-4 border-pink-500">
+                    <i class="fa-solid fa-sparkles text-base text-pink-500"></i>
+                    <span>💬 Tutor IA & Retos</span>
+                </button>
+            </div>
+
+            <!-- CONFIGURACIÓN API KEY GEMINI (INTEGRADO PARA CANVAS O MANUAL) -->
+            <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-5 rounded-2xl shadow-md border border-indigo-950 space-y-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-key text-yellow-400"></i>
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-indigo-200">Credenciales Gemini API</h3>
+                </div>
+                <p class="text-[11px] text-indigo-200 leading-relaxed">
+                    Si estás en la plataforma Canvas, la API Key se suministrará automáticamente. Si lo descargas de forma local, puedes colocar tu clave aquí:
+                </p>
+                <div class="relative">
+                    <input type="password" id="gemini-key" placeholder="Automática en Canvas..." class="w-full bg-indigo-950/50 border border-indigo-700 rounded-lg py-1.5 pl-3 pr-8 text-xs text-indigo-100 focus:outline-none focus:ring-1 focus:ring-pink-500">
+                    <i class="fa-solid fa-shield-halved absolute right-2.5 top-1/2 -translate-y-1/2 text-indigo-400 text-xs"></i>
+                </div>
+                <div class="flex items-center gap-1.5 text-[10px] text-emerald-400 font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Gemini-3-Flash / TTS Activo</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENT SECTION -->
+        <section class="flex-grow min-w-0">
+
+            <!-- TAB: TEORIA -->
+            <div id="tab-teoria" class="tab-content active space-y-6">
+                <!-- Tarjeta Principal Teoría -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+                        <i class="fa-solid fa-graduation-cap text-2xl text-indigo-600"></i>
+                        <h2 class="text-xl md:text-2xl font-bold text-slate-900">Formación de Adjetivos y Jerarquías B2</h2>
+                    </div>
+                    
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        En inglés de nivel B2, no existe una regla única para la creación de adjetivos, sino una serie de patrones formados a través de la adición de <strong>sufijos y prefijos</strong>. Además, cuando empleamos múltiples adjetivos simultáneamente, debemos respetar el estricto orden de posición que dicta la gramática formal.
+                    </p>
+
+                    <!-- Acordeón de teoría de la copia #21 y #20 corregido -->
+                    <div class="space-y-4">
+                        <!-- Bloque 1: Sustantivos a Adjetivos -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <button onclick="toggleAccordion('acc-nouns')" class="w-full flex justify-between items-center p-4 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800 transition">
+                                <span>🏷️ Formación desde Sustantivos (Nouns) - Copia 21</span>
+                                <i class="fa-solid fa-chevron-down transition-transform duration-200" id="icon-acc-nouns"></i>
+                            </button>
+                            <div id="acc-nouns" class="p-4 border-t border-slate-200 space-y-3 bg-white text-sm text-slate-600 leading-relaxed">
+                                <p>Para dotar a un sustantivo de un carácter descriptivo, empleamos sufijos específicos:</p>
+                                <ul class="list-disc list-inside space-y-2 mt-2">
+                                    <li><strong>-al, -ial</strong> (relacionado con): <em>norm</em> &rarr; <strong>normal</strong>, <em>music</em> &rarr; <strong>musical</strong>.</li>
+                                    <li><strong>-ic, -ical</strong> (naturaleza de / causado por): <em>romance</em> &rarr; <strong>romantic</strong>.</li>
+                                    <li><strong>-ful</strong> (lleno de / que tiene la cualidad): <em>beauty</em> &rarr; <strong>beautiful</strong>, <em>harm</em> &rarr; <strong>harmful</strong>.</li>
+                                    <li><strong>-less</strong> (sin / que carece de): <em>end</em> &rarr; <strong>endless</strong>, <em>speech</em> &rarr; <strong>speechless</strong>.</li>
+                                    <li><strong>-ish</strong> (origen / cualidad atenuada): <em>child</em> &rarr; <strong>childish</strong>, <em>Britain</em> &rarr; <strong>British</strong>.</li>
+                                    <li><strong>-eous, -ious, -ous</strong> (cualidad / naturaleza): <em>adventure</em> &rarr; <strong>adventurous</strong>, <em>ambition</em> &rarr; <strong>ambitious</strong>.</li>
+                                    <li><strong>-y</strong> (estado / aspecto superficial): <em>anger</em> &rarr; <strong>angry</strong>, <em>wealth</em> &rarr; <strong>wealthy</strong>.</li>
+                                    <li><strong>-like / -ary</strong> (semejanza / relación): <em>child</em> &rarr; <strong>childlike</strong>, <em>custom</em> &rarr; <strong>customary</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Bloque 2: Verbos a Adjetivos -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <button onclick="toggleAccordion('acc-verbs')" class="w-full flex justify-between items-center p-4 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800 transition">
+                                <span>⚙️ Formación desde Verbos (Verbs) - Copia 21</span>
+                                <i class="fa-solid fa-chevron-down transition-transform duration-200" id="icon-acc-verbs"></i>
+                            </button>
+                            <div id="acc-verbs" class="hidden p-4 border-t border-slate-200 space-y-3 bg-white text-sm text-slate-600 leading-relaxed">
+                                <p>La transformación de verbos a adjetivos se asocia a la capacidad de realizar o provocar una acción:</p>
+                                <ul class="list-disc list-inside space-y-2 mt-2">
+                                    <li><strong>-ive</strong> (causa de un efecto activo): <em>create</em> &rarr; <strong>creative</strong>, <em>talk</em> &rarr; <strong>talkative</strong>, <em>compete</em> &rarr; <strong>competitive</strong>.</li>
+                                    <li><strong>-able, -ible</strong> (viabilidad / posibilidad): <em>read</em> &rarr; <strong>readable</strong>, <em>break</em> &rarr; <strong>breakable</strong>, <em>rely</em> &rarr; <strong>reliable</strong>.</li>
+                                    <li><strong>-ful</strong> (plenitud): <em>play</em> &rarr; <strong>playful</strong>.</li>
+                                    <li><strong>-ent, -ant</strong> (ejecutor de la acción): <em>obey</em> &rarr; <strong>obedient</strong>, <em>expect</em> &rarr; <strong>expectant</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Bloque 3: Los Falsos Amigos / Contrastes Clave (Copia 21) -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <button onclick="toggleAccordion('acc-confusing')" class="w-full flex justify-between items-center p-4 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800 transition">
+                                <span>⚠️ Confusing Adjectives (Copia 21)</span>
+                                <i class="fa-solid fa-chevron-down transition-transform duration-200" id="icon-acc-confusing"></i>
+                            </button>
+                            <div id="acc-confusing" class="hidden p-4 border-t border-slate-200 space-y-4 bg-white text-sm text-slate-600 leading-relaxed">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                                        <h4 class="font-bold text-indigo-900 mb-2">Classic vs Classical</h4>
+                                        <p class="text-xs mb-2"><strong>Classic:</strong> Gran calidad, tradicional, que no pasa de moda. <br><em>"A classic blue skirt."</em></p>
+                                        <p class="text-xs border-t border-indigo-200 pt-2"><strong>Classical:</strong> Referente a la cultura clásica grecorromana o artes formales tradicionales. <br><em>"Classical composer Mozart."</em></p>
+                                    </div>
+                                    <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+                                        <h4 class="font-bold text-purple-900 mb-2">Economic vs Economical</h4>
+                                        <p class="text-xs mb-2"><strong>Economic:</strong> Relativo a las finanzas, industria, política monetaria o comercio. <br><em>"Economic policy."</em></p>
+                                        <p class="text-xs border-t border-purple-200 pt-2"><strong>Economical:</strong> Ahorrativo, de bajo consumo de combustible o dinero. <br><em>"Economical hybrid cars."</em></p>
+                                    </div>
+                                    <div class="bg-pink-50 p-4 rounded-xl border border-pink-100">
+                                        <h4 class="font-bold text-pink-900 mb-2">Historic vs Historical</h4>
+                                        <p class="text-xs mb-2"><strong>Historic:</strong> Hito trascendental o sumamente importante en la historia. <br><em>"A historic peace agreement."</em></p>
+                                        <p class="text-xs border-t border-pink-200 pt-2"><strong>Historical:</strong> Vinculado al estudio formal o documentos del pasado. <br><em>"Historical novels."</em></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloque 4: El Orden de los Adjetivos de la Copia 20 (CORREGIDO Y AMPLIADO) -->
+                        <div class="border border-indigo-200 rounded-xl overflow-hidden shadow-sm">
+                            <button onclick="toggleAccordion('acc-order')" class="w-full flex justify-between items-center p-4 bg-indigo-500 hover:bg-indigo-600 font-bold text-white transition">
+                                <span>📏 12 Pasos del Orden de los Adjetivos (Copia 20)</span>
+                                <i class="fa-solid fa-chevron-down transition-transform duration-200" id="icon-acc-order"></i>
+                            </button>
+                            <div id="acc-order" class="p-4 border-t border-slate-200 space-y-6 bg-white text-sm text-slate-600">
+                                <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 mb-4">
+                                    <p class="text-xs font-semibold text-indigo-950 mb-2 leading-relaxed">
+                                        <i class="fa-solid fa-circle-exclamation text-indigo-600 mr-1.5"></i>
+                                        <strong>Regla de la Copia 20:</strong> Sigue este orden secuencial inalterable de izquierda a derecha. Dentro de cada categoría, el vocabulario se presenta ordenado alfabéticamente de la A a la Z para facilitar su memorización.
+                                    </p>
+                                    <div class="flex flex-wrap gap-1.5 mt-2 font-mono text-[10px] sm:text-xs">
+                                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded-md font-bold shadow-sm">1. Determiner</span>
+                                        <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-md font-bold shadow-sm">2. Quantity</span>
+                                        <span class="px-2 py-1 bg-pink-100 text-pink-800 rounded-md font-bold shadow-sm">3. Opinion</span>
+                                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-md font-bold shadow-sm">4. Size</span>
+                                        <span class="px-2 py-1 bg-teal-100 text-teal-800 rounded-md font-bold shadow-sm">5. Phys. Quality</span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded-md font-bold shadow-sm">6. Shape</span>
+                                        <span class="px-2 py-1 bg-amber-100 text-amber-800 rounded-md font-bold shadow-sm">7. Age</span>
+                                        <span class="px-2 py-1 bg-rose-100 text-rose-800 rounded-md font-bold shadow-sm">8. Colour</span>
+                                        <span class="px-2 py-1 bg-sky-100 text-sky-800 rounded-md font-bold shadow-sm">9. Origin</span>
+                                        <span class="px-2 py-1 bg-emerald-100 text-emerald-800 rounded-md font-bold shadow-sm">10. Material</span>
+                                        <span class="px-2 py-1 bg-violet-100 text-violet-800 rounded-md font-bold shadow-sm">11. Type</span>
+                                        <span class="px-2 py-1 bg-slate-100 text-slate-800 rounded-md font-bold shadow-sm">12. Purpose</span>
+                                    </div>
+                                </div>
+
+                                <!-- Grid de las 12 categorías -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    
+                                    <!-- 1. Determiner -->
+                                    <div class="bg-indigo-50/30 p-3 rounded-xl border border-indigo-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-indigo-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">1</span>
+                                            Articles, Demonstratives & Possessives
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-indigo-50 font-medium">
+                                            <div><strong>a</strong> (un/una)</div>
+                                            <div><strong>an</strong> (un/una)</div>
+                                            <div><strong>her</strong> (su - de ella)</div>
+                                            <div><strong>his</strong> (su - de él)</div>
+                                            <div><strong>my</strong> (mi)</div>
+                                            <div><strong>our</strong> (nuestro/a)</div>
+                                            <div><strong>the</strong> (el/la/los/las)</div>
+                                            <div><strong>their</strong> (su - de ellos)</div>
+                                            <div><strong>these</strong> (estos/estas)</div>
+                                            <div><strong>this</strong> (este/esta)</div>
+                                            <div><strong>those</strong> (aquellos/as)</div>
+                                            <div><strong>your</strong> (tu/vuestro/su)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 2. Quantity -->
+                                    <div class="bg-purple-50/30 p-3 rounded-xl border border-purple-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-purple-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px]">2</span>
+                                            Quantity / Número
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-purple-50 font-medium">
+                                            <div><strong>a few</strong> (unos pocos)</div>
+                                            <div><strong>all</strong> (todo/todos)</div>
+                                            <div><strong>countless</strong> (innumerables)</div>
+                                            <div><strong>dozen</strong> (docena)</div>
+                                            <div><strong>many</strong> (muchos)</div>
+                                            <div><strong>ninety-nine</strong> (99)</div>
+                                            <div><strong>one</strong> (uno)</div>
+                                            <div><strong>several</strong> (varios)</div>
+                                            <div><strong>three</strong> (tres)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Opinion or Observation -->
+                                    <div class="bg-pink-50/30 p-3 rounded-xl border border-pink-100/60 space-y-2 col-span-1 md:col-span-2">
+                                        <h4 class="font-extrabold text-pink-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-pink-600 text-white flex items-center justify-center text-[10px]">3</span>
+                                            Opinion or Observation / Opinión subjetiva
+                                        </h4>
+                                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 text-xs text-slate-600 bg-white p-3 rounded-lg border border-pink-50 font-medium">
+                                            <div><strong>beautiful</strong> (hermoso)</div>
+                                            <div><strong>clever</strong> (inteligente)</div>
+                                            <div><strong>foolish</strong> (tonto/imprudente)</div>
+                                            <div><strong>gorgeous</strong> (precioso)</div>
+                                            <div><strong>lovely</strong> (encantador)</div>
+                                            <div><strong>magnificent</strong> (magnífico)</div>
+                                            <div><strong>miserable</strong> (desdichado)</div>
+                                            <div><strong>nasty</strong> (desagradable)</div>
+                                            <div><strong>odd</strong> (raro/extraño)</div>
+                                            <div><strong>silly</strong> (bobo/tonto)</div>
+                                            <div><strong>splendid</strong> (espléndido)</div>
+                                            <div><strong>ugly</strong> (feo)</div>
+                                            <div><strong>well-mannered</strong> (educado)</div>
+                                            <div><strong>witty</strong> (ingenioso/agudo)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. Size -->
+                                    <div class="bg-blue-50/30 p-3 rounded-xl border border-blue-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-blue-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px]">4</span>
+                                            Size / Tamaño
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-blue-50 font-medium">
+                                            <div><strong>big</strong> (grande)</div>
+                                            <div><strong>colossal</strong> (colosal)</div>
+                                            <div><strong>enormous</strong> (enorme)</div>
+                                            <div><strong>gigantic</strong> (gigantesco)</div>
+                                            <div><strong>huge</strong> (enorme/vasto)</div>
+                                            <div><strong>medium-size</strong> (mediano)</div>
+                                            <div><strong>minute</strong> (diminuto)</div>
+                                            <div><strong>small</strong> (pequeño)</div>
+                                            <div><strong>tiny</strong> (diminuto)</div>
+                                            <div><strong>vast</strong> (vasto/extenso)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 5. Physical Quality -->
+                                    <div class="bg-teal-50/30 p-3 rounded-xl border border-teal-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-teal-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-teal-600 text-white flex items-center justify-center text-[10px]">5</span>
+                                            Physical Quality / Calidad Física
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-teal-50 font-medium">
+                                            <div><strong>cluttered</strong> (abarrotado)</div>
+                                            <div><strong>fragile</strong> (frágil)</div>
+                                            <div><strong>lumpy</strong> (grumoso)</div>
+                                            <div><strong>rough</strong> (áspero/rugoso)</div>
+                                            <div><strong>smooth</strong> (liso/suave)</div>
+                                            <div><strong>solid</strong> (sólido)</div>
+                                            <div><strong>sticky</strong> (pegajoso)</div>
+                                            <div><strong>thin</strong> (delgado)</div>
+                                            <div><strong>untidy</strong> (desordenado)</div>
+                                            <div><strong>worn</strong> (gastado)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 6. Shape -->
+                                    <div class="bg-green-50/30 p-3 rounded-xl border border-green-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-green-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-green-600 text-white flex items-center justify-center text-[10px]">6</span>
+                                            Shape / Forma
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-green-50 font-medium">
+                                            <div><strong>circular</strong> (circular)</div>
+                                            <div><strong>long</strong> (largo)</div>
+                                            <div><strong>oval</strong> (ovalado)</div>
+                                            <div><strong>rectangular</strong> (rectangular)</div>
+                                            <div><strong>round</strong> (redondo)</div>
+                                            <div><strong>spherical</strong> (esférico)</div>
+                                            <div><strong>square</strong> (cuadrado)</div>
+                                            <div><strong>triangular</strong> (triangular)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 7. Age -->
+                                    <div class="bg-amber-50/30 p-3 rounded-xl border border-amber-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-amber-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-[10px]">7</span>
+                                            Age / Edad o Época
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-amber-50 font-medium">
+                                            <div><strong>ancient</strong> (milenario)</div>
+                                            <div><strong>brand-new</strong> (nuevo de paquete)</div>
+                                            <div><strong>elderly</strong> (anciano)</div>
+                                            <div><strong>middle-aged</strong> (mediana edad)</div>
+                                            <div><strong>modern</strong> (moderno)</div>
+                                            <div><strong>old</strong> (viejo/antiguo)</div>
+                                            <div><strong>recent</strong> (reciente)</div>
+                                            <div><strong>vintage</strong> (clásico/retro)</div>
+                                            <div><strong>young</strong> (joven)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 8. Colour -->
+                                    <div class="bg-rose-50/30 p-3 rounded-xl border border-rose-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-rose-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center text-[10px]">8</span>
+                                            Colour / Color
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-rose-50 font-medium">
+                                            <div><strong>blue</strong> (azul)</div>
+                                            <div><strong>crimson</strong> (carmesí)</div>
+                                            <div><strong>golden</strong> (dorado)</div>
+                                            <div><strong>green</strong> (verde)</div>
+                                            <div><strong>magenta</strong> (magenta)</div>
+                                            <div><strong>purple</strong> (morado)</div>
+                                            <div><strong>red</strong> (rojo)</div>
+                                            <div><strong>scarlet</strong> (escarlata)</div>
+                                            <div><strong>silver</strong> (plateado)</div>
+                                            <div><strong>turquoise</strong> (turquesa)</div>
+                                            <div><strong>yellow</strong> (amarillo)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 9. Origin or Religion -->
+                                    <div class="bg-sky-50/30 p-3 rounded-xl border border-sky-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-sky-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-sky-600 text-white flex items-center justify-center text-[10px]">9</span>
+                                            Origin or Religion / Origen-Religión
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-sky-50 font-medium">
+                                            <div><strong>African</strong> (africano)</div>
+                                            <div><strong>American</strong> (americano)</div>
+                                            <div><strong>British</strong> (británico)</div>
+                                            <div><strong>Buddhist</strong> (budista)</div>
+                                            <div><strong>Catholic</strong> (católico)</div>
+                                            <div><strong>Christian</strong> (cristiano)</div>
+                                            <div><strong>French</strong> (francés)</div>
+                                            <div><strong>German</strong> (alemán)</div>
+                                            <div><strong>Italian</strong> (italiano)</div>
+                                            <div><strong>Spanish</strong> (español)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 10. Material -->
+                                    <div class="bg-emerald-50/30 p-3 rounded-xl border border-emerald-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-emerald-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px]">10</span>
+                                            Material / Composición
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-emerald-50 font-medium">
+                                            <div><strong>brick</strong> (de ladrillo)</div>
+                                            <div><strong>cotton</strong> (de algodón)</div>
+                                            <div><strong>glass</strong> (de vidrio)</div>
+                                            <div><strong>leather</strong> (de cuero)</div>
+                                            <div><strong>metal</strong> (de metal)</div>
+                                            <div><strong>plastic</strong> (de plástico)</div>
+                                            <div><strong>silk</strong> (de seda)</div>
+                                            <div><strong>steel</strong> (de acero)</div>
+                                            <div><strong>wooden</strong> (de madera)</div>
+                                            <div><strong>wool</strong> (de lana)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 11. Type -->
+                                    <div class="bg-violet-50/30 p-3 rounded-xl border border-violet-100/60 space-y-2">
+                                        <h4 class="font-extrabold text-violet-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px]">11</span>
+                                            Type / Tipo o Categoría
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-violet-50 font-medium">
+                                            <div><strong>all-purpose</strong> (multiuso)</div>
+                                            <div><strong>four-sided</strong> (de 4 lados)</div>
+                                            <div><strong>general-use</strong> (uso general)</div>
+                                            <div><strong>heavy-duty</strong> (rudo/robusto)</div>
+                                            <div><strong>L-shaped</strong> (forma de L)</div>
+                                            <div><strong>semi-detached</strong> (pareado)</div>
+                                            <div><strong>special-edition</strong> (edición esp.)</div>
+                                            <div><strong>two-sided</strong> (de dos caras)</div>
+                                            <div><strong>U-shaped</strong> (forma de U)</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 12. Purpose -->
+                                    <div class="bg-slate-50/50 p-3 rounded-xl border border-slate-200/60 space-y-2">
+                                        <h4 class="font-extrabold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                                            <span class="w-5 h-5 rounded-full bg-slate-700 text-white flex items-center justify-center text-[10px]">12</span>
+                                            Purpose / Propósito o Función
+                                        </h4>
+                                        <div class="grid grid-cols-2 gap-1 text-xs text-slate-600 bg-white p-2 rounded-lg border border-slate-200 font-medium">
+                                            <div><strong>cleaning</strong> (de limpieza)</div>
+                                            <div><strong>cooking</strong> (de/para cocinar)</div>
+                                            <div><strong>drinking</strong> (para beber)</div>
+                                            <div><strong>gardening</strong> (jardinería)</div>
+                                            <div><strong>mixing</strong> (de mezclar)</div>
+                                            <div><strong>running</strong> (para correr)</div>
+                                            <div><strong>sleeping</strong> (para dormir)</div>
+                                            <div><strong>writing</strong> (para escribir)</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <p class="text-xs italic text-indigo-700 mt-4 font-bold border-t border-slate-100 pt-3 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                    Ejemplo Integrador: "I bought a (1) gorgeous (3) small (4) round (6) vintage (7) brown (8) Italian (9) leather (10) writing (12) desk."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: VOCABULARIO -->
+            <div id="tab-vocabulario" class="tab-content space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-100 pb-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-arrow-down-a-z text-2xl text-indigo-600"></i>
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-900">B2 Adjectives Dictionary</h2>
+                        </div>
+                        <!-- Buscador integrado -->
+                        <div class="relative w-full md:w-72">
+                            <input type="text" id="vocab-search" oninput="filterVocabulary()" placeholder="Buscar palabra..." class="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        </div>
+                    </div>
+
+                    <!-- Lista Interactiva con Scroll -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200 text-left">
+                            <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-3 rounded-l-lg">Base Noun/Verb</th>
+                                    <th class="px-6 py-3">Adjective</th>
+                                    <th class="px-6 py-3">Suffix / Rule</th>
+                                    <th class="px-6 py-3">Significado</th>
+                                    <th class="px-6 py-3 rounded-r-lg">Ejemplo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vocab-table-body" class="divide-y divide-slate-100 text-sm text-slate-600">
+                                <!-- Generado por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: PRACTICA BLANKETS (10 EXERCISES) -->
+            <div id="tab-practica-blankets" class="tab-content space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-pen-clip text-2xl text-indigo-600"></i>
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-900">Ejercicio 1: Formación de Adjetivos</h2>
+                        </div>
+                        <button onclick="resetBlankets()" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center gap-2 transition">
+                            <i class="fa-solid fa-rotate-right"></i> Reiniciar
+                        </button>
+                    </div>
+                    
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Escribe el adjetivo correcto a partir de la palabra en mayúsculas entre paréntesis. <strong>¡Ten mucho cuidado con la ortografía y la necesidad de prefijos negativos en base a la Copia 21!</strong>
+                    </p>
+
+                    <!-- Lista de 10 ejercicios interactivos -->
+                    <div class="space-y-6" id="blankets-container">
+                        <!-- Generado dinámicamente para control preciso -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: PRACTICA ORDENAR (SENTENCE REORDERING) -->
+            <div id="tab-practica-ordenar" class="tab-content space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="border-b border-slate-100 pb-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-arrows-spin text-2xl text-indigo-600"></i>
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-900">Ejercicio 2: Ordenar la Frase</h2>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Haz clic en los bloques de palabras en la secuencia correcta para construir la oración respetando el orden estricto de la Copia 20.</p>
+                    </div>
+
+                    <div class="space-y-8" id="reorder-container">
+                        <!-- Generado dinámicamente por JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: PRACTICA LISTENING -->
+            <div id="tab-practica-listening" class="tab-content space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="border-b border-slate-100 pb-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-volume-high text-2xl text-indigo-600"></i>
+                                <h2 class="text-xl md:text-2xl font-bold text-slate-900">Ejercicio 3: Comprensión Auditiva (Listening)</h2>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Escucha la oración utilizando el reproductor básico o genera la versión premium ultra-natural con la voz nativa de Gemini AI.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8" id="listening-container">
+                        <!-- Generado dinámicamente por JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: PRACTICA READING -->
+            <div id="tab-practica-reading" class="tab-content space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="border-b border-slate-100 pb-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-newspaper text-2xl text-indigo-600"></i>
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-900">Ejercicio 4: Lectura Comprensiva (Reading B2)</h2>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Lee con atención el siguiente texto donde se destacan diversos adjetivos de nivel B2 y responde las preguntas de opción múltiple al final.</p>
+                    </div>
+
+                    <!-- Lectura -->
+                    <div class="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100/50 text-slate-700 space-y-4 mb-8 leading-relaxed text-sm">
+                        <h3 class="text-lg font-extrabold text-indigo-950">The Unexpected Eco-Adventure</h3>
+                        <p>
+                            Last summer, my sister and I decided to go on a highly <strong class="text-indigo-800">adventurous</strong> journey to the Scottish Highlands. We had always dreamed of visiting the <strong class="text-indigo-800">historic</strong> castles that are famous worldwide. Since petrol is extremely expensive these days, we rented a hybrid car, which turned out to be incredibly <strong class="text-indigo-800">economical</strong> and perfect for our budget. 
+                        </p>
+                        <p>
+                            However, the weather on the first day was absolutely <strong class="text-indigo-800">miserable</strong> due to heavy rain. We almost made a <strong class="text-indigo-800">careless</strong> mistake by taking a mountain trail without a GPS. It was a <strong class="text-indigo-800">tricky</strong> road, and with our fuel running low, arguing was completely <strong class="text-indigo-800">pointless</strong>. 
+                        </p>
+                        <p>
+                            Fortunately, we found a local B&B owned by a wonderfully <strong class="text-indigo-800">cheerful</strong> couple. They served us a warm, <strong class="text-indigo-800">meaty</strong> stew that saved our evening. We were immensely <strong class="text-indigo-800">relieved</strong> to be safe. It was an experience that proved how being well-prepared and making <strong class="text-indigo-800">sensible</strong> decisions is key when exploring remote places.
+                        </p>
+                    </div>
+
+                    <!-- Preguntas del Reading -->
+                    <div class="space-y-6" id="reading-questions-container">
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: TUTOR IA & RETOS -->
+            <div id="tab-tutor-ia" class="tab-content space-y-6">
+                <!-- Seccion 1: Corrector de Textos de IA -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl text-pink-500"></i>
+                        <div>
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-900">Corrector & Analizador de Adjetivos</h2>
+                            <p class="text-xs text-slate-500">Escribe o pega un párrafo en inglés. La IA analizará la idoneidad B2, errores ortográficos y la jerarquía de la Copia 20.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <textarea id="ai-essay-input" rows="5" placeholder="Escribe un párrafo usando adjetivos B2. Ej: 'I bought a beautiful tiny ancient leather writing desk...'" class="w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:outline-none text-sm shadow-sm transition-all"></textarea>
+                        
+                        <div class="flex flex-wrap gap-2 justify-between items-center">
+                            <span class="text-[11px] text-slate-400"><i class="fa-solid fa-lightbulb"></i> Tip: Prueba a forzar un orden incorrecto para ver cómo la IA te corrige.</span>
+                            <button onclick="analyzeEssay()" id="btn-analyze-essay" class="px-5 py-2.5 bg-gradient-to-r from-pink-500 to-indigo-600 hover:from-pink-600 hover:to-indigo-700 text-white font-bold text-xs rounded-xl flex items-center gap-2 transition shadow-md">
+                                <i class="fa-solid fa-magnifying-glass-chart"></i> Analizar con Gemini IA
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Contenedor del resultado del Analisis -->
+                    <div id="ai-essay-result" class="hidden p-6 rounded-2xl border border-slate-200 bg-slate-50 space-y-4 transition-all duration-300">
+                        <!-- Dinamico -->
+                    </div>
+                </div>
+
+                <!-- Seccion 2: Generador de Pruebas Personalizadas por IA -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                        <i class="fa-solid fa-brain text-2xl text-indigo-600"></i>
+                        <div>
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-900">Generador de Tests de Adjetivos</h2>
+                            <p class="text-xs text-slate-500">Pídele a Gemini que cree un test dinámico de 5 preguntas sobre cualquier tema de tu agrado.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="ai-quiz-topic" placeholder="Ej: Viajes espaciales, fútbol, arte clásico, tecnología..." class="flex-grow px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm shadow-sm">
+                        <button onclick="generateAIQuiz()" id="btn-generate-quiz" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition shadow-md shrink-0">
+                            <i class="fa-solid fa-dice"></i> Generar Test
+                        </button>
+                    </div>
+
+                    <!-- Contenedor de preguntas de IA -->
+                    <div id="ai-quiz-container" class="hidden space-y-6">
+                        <!-- Dinamico -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-center text-xs">
+        <p>&copy; 2026 David's English Learning Suite. Hecho a medida para consolidar Adjetivos de B2, Copia 20/21 & Tutor Gemini AI.</p>
+    </footer>
+
+    <!-- JAVASCRIPT DE LA PLATAFORMA -->
+    <script>
+        // --- BASE DE DATOS DE VOCABULARIO B2 ---
+        const vocabularyDb = [
+            { base: "tradition", adj: "traditional", type: "Noun", suffix: "-al", es: "Tradicional", example: "It is traditional to eat turkey on Thanksgiving." },
+            { base: "logic", adj: "logical", type: "Noun", suffix: "-al", es: "Lógico", example: "His decision to accept the job was highly logical." },
+            { base: "child", adj: "childish", type: "Noun", suffix: "-ish", es: "Infantil / Inmaduro", example: "Don't be so childish! Share your toys." },
+            { base: "child", adj: "childlike", type: "Noun", suffix: "-like", es: "Inocente / Como niño", example: "She looked around with childlike wonder." },
+            { base: "ridicule", adj: "ridiculous", type: "Noun/Verb", suffix: "-ous (drop -e)", es: "Ridículo", example: "That is a ridiculous price for a cup of coffee." },
+            { base: "sense", adj: "sensible", type: "Noun", suffix: "-ible", es: "Sensato / Juicioso", example: "It would be sensible to take an umbrella." },
+            { base: "sense", adj: "sensitive", type: "Noun", suffix: "-itive", es: "Sensible / Delicado", example: "My skin is highly sensitive to the sun." },
+            { base: "trick", adj: "tricky", type: "Noun", suffix: "-y", es: "Complicado / Delicado", example: "The grammar test was quite tricky." },
+            { base: "respect", adj: "respectful", type: "Noun/Verb", suffix: "-ful", es: "Respetuoso", example: "You should be respectful when entering a temple." },
+            { base: "apologise", adj: "apologetic", type: "Verb", suffix: "-etic", es: "Arrepentido", example: "He was very apologetic for arriving late." },
+            { base: "hope", adj: "hopeful", type: "Noun/Verb", suffix: "-ful", es: "Optimista", example: "We are hopeful that the situation will improve." },
+            { base: "hope", adj: "hopeless", type: "Noun/Verb", suffix: "-less", es: "Sin esperanza", example: "I am hopeless at cooking, everything burns." },
+            { base: "colour", adj: "colourful", type: "Noun", suffix: "-ful", es: "Colorido", example: "A colourful bird landed on my window." },
+            { base: "success", adj: "successful", type: "Noun", suffix: "-ful", es: "Exitoso", example: "She is a very successful businesswoman." },
+            { base: "allergy", adj: "allergic", type: "Noun", suffix: "-ic (y->i)", es: "Alérgico", example: "I am allergic to cat fur." },
+            { base: "history", adj: "historic", type: "Noun", suffix: "-ic (y->i)", es: "Histórico (importante)", example: "This is a historic day for our country!" },
+            { base: "history", adj: "historical", type: "Noun", suffix: "-ical (y->i)", es: "Histórico (estudio)", example: "I love reading historical novels about Rome." },
+            { base: "economy", adj: "economic", type: "Noun", suffix: "-ic", es: "Económico (finanzas)", example: "The country's economic growth was stable." },
+            { base: "economy", adj: "economical", type: "Noun", suffix: "-ical", es: "Económico (barato)", example: "An economical car is perfect for long commutes." },
+            { base: "classic", adj: "classic", type: "Noun", suffix: "None", es: "Clásico (alto valor)", example: "She was wearing a classic blue suit." },
+            { base: "classic", adj: "classical", type: "Noun", suffix: "-al", es: "Clásico (cultura/música)", example: "Mozart composed classical music." },
+            { base: "fool", adj: "foolish", type: "Noun", suffix: "-ish", es: "Imprudente / Tonto", example: "It was foolish to walk home in the dark alone." },
+            { base: "nightmare", adj: "nightmarish", type: "Noun", suffix: "-ish (drop -e)", es: "Pesadillesco", example: "The highway traffic was a nightmarish experience." },
+            { base: "use", adj: "useful", type: "Noun/Verb", suffix: "-ful", es: "Útil", example: "An online map is very useful in new cities." },
+            { base: "use", adj: "useless", type: "Noun/Verb", suffix: "-less", es: "Inútil", example: "This old battery is completely useless." },
+            { base: "point", adj: "pointless", type: "Noun", suffix: "-less", es: "Sin sentido / Inútil", example: "It is pointless arguing with someone who won't listen." },
+            { base: "poison", adj: "poisonous", type: "Noun", suffix: "-ous", es: "Venenoso", example: "That frog is highly poisonous." },
+            { base: "danger", adj: "dangerous", type: "Noun", suffix: "-ous", es: "Peligroso", example: "Skiing off-piste can be highly dangerous." },
+            { base: "accept", adj: "acceptable", type: "Verb", suffix: "-able", es: "Aceptable", example: "His behavior was simply not acceptable." },
+            { base: "do", adj: "doable", type: "Verb", suffix: "-able", es: "Factible / Realizable", example: "The project is hard, but definitely doable." },
+            { base: "meat", adj: "meaty", type: "Noun", suffix: "-y", es: "Carnoso", example: "This pasta sauce has a very meaty flavor." },
+            { base: "scare", adj: "scary", type: "Noun/Verb", suffix: "-y (drop -e)", es: "Aterrador", example: "The dark house looked very scary." },
+            { base: "reason", adj: "reasonable", type: "Noun/Verb", suffix: "-able", es: "Razonable / Justo", example: "The price of the dinner was reasonable." },
+            { base: "cheer", adj: "cheerful", type: "Noun/Verb", suffix: "-ful", es: "Alegre", example: "He has a cheerful laugh that fills the room." },
+            { base: "impress", adj: "impressive", type: "Verb", suffix: "-ive", es: "Impresionante", example: "Your grades this semester are highly impressive." },
+            { base: "decide", adj: "decisive", type: "Verb", suffix: "-ive (drop -de)", es: "Decisivo / Decidido", example: "The general made a decisive move to end the battle." },
+            { base: "adventure", adj: "adventurous", type: "Noun", suffix: "-ous (drop -e)", es: "Aventurero", example: "She is an adventurous traveler who loves trekking." },
+            { base: "ambition", adj: "ambitious", type: "Noun", suffix: "-ious", es: "Ambicioso", example: "He has ambitious plans to change the local laws." },
+            { base: "obey", adj: "obedient", type: "Verb", suffix: "-ent", es: "Obediente", example: "An obedient dog is easy to train." },
+            { base: "expect", adj: "expectant", type: "Verb", suffix: "-ant", es: "Expectante / En espera", example: "The expectant crowd waited for the pop star." }
+        ];
+
+        // --- PREGUNTAS DEL EJERCICIO 1 (BLANKETS DE COPIA 21) ---
+        const blanketQuestions = [
+            { id: 1, base: "THOUGHT", answer: "thoughtful", sentence: "Thanks so much for the gift. It was very _________ of you.", hint: "Usa el sufijo -ful. Significa 'considerado/atento'." },
+            { id: 2, base: "MISERY", answer: "miserable", sentence: "The weather was _________ but we didn't let it spoil our holiday.", hint: "Cambia la 'y' por 'i' y añade el sufijo -able. Significa 'espantoso / desdichado'." },
+            { id: 3, base: "FRIEND", answer: "unfriendly", sentence: "I don't like John much as he can be quite _________ sometimes.", hint: "¡Cuidado! Requiere el sufijo -ly pero también el prefijo negativo 'un-' por el contexto negativo." },
+            { id: 4, base: "ENERGY", answer: "energetic", sentence: "Ella had a very good sleep last night so she feels much more _________ today.", hint: "Cambia 'y' a 'e' y añade -tic. Significa 'activo / lleno de energía'." },
+            { id: 5, base: "ECONOMY", answer: "economical", sentence: "Buying a late night flight is usually more _________.", hint: "Se refiere a 'ahorrar dinero' (barato/eficiente), no a la macroeconomía." },
+            { id: 6, base: "SCIENCE", answer: "scientific", sentence: "_________ studies have shown that reading can significantly reduce stress.", hint: "Sufijo -ific para calificar los estudios relacionados con la ciencia." },
+            { id: 7, base: "RELY", answer: "unreliable", sentence: "Keith often turns up late to meetings. He is quite _________.", hint: "Usa el verbo 'rely'. El contexto dice que llega tarde (negativo), por lo que lleva el prefijo 'un-' y el sufijo '-able'." },
+            { id: 8, base: "RESPONSE", answer: "irresponsible", sentence: "Texting on your phone while driving is _________.", hint: "Falta de responsabilidad. Utiliza el prefijo negativo 'ir-' y el sufijo '-ible'." },
+            { id: 9, base: "ENVY", answer: "envious", sentence: "You're going to Madagascar? You lucky thing! I'm so _________.", hint: "Cambia la 'y' a 'i' y añade el sufijo '-ous'. Significa 'envidioso'." },
+            { id: 10, base: "CARE", answer: "careless", sentence: "If you rush your English exam, it is easy to make _________ mistakes.", hint: "Errores cometidos por falta de cuidado. Sufijo '-less'." }
+        ];
+
+        // --- PREGUNTAS DEL EJERCICIO 2 (ORDEN DE ADJETIVOS DE COPIA 20) ---
+        const reorderQuestions = [
+            {
+                id: 1,
+                words: ["She", "was", "wearing", "an", "elegant", "black", "Italian", "dress."],
+                correctOrder: ["She", "was", "wearing", "an", "elegant", "black", "Italian", "dress."],
+                hint: "Orden según la Copia 20: Opinión (elegant) -> Color (black) -> Origen (Italian)."
+            },
+            {
+                id: 2,
+                words: ["table.", "a", "wooden", "nice", "old", "They", "bought", "square"],
+                correctOrder: ["They", "bought", "a", "nice", "square", "old", "wooden", "table."],
+                hint: "Orden según la Copia 20: Opinión (nice) -> Forma (square) -> Edad (old) -> Material (wooden)."
+            },
+            {
+                id: 3,
+                words: ["He", "sports", "car.", "German", "blue", "fast", "drives", "a"],
+                correctOrder: ["He", "drives", "a", "fast", "blue", "German", "sports", "car."],
+                hint: "Orden según la Copia 20: Opinión (fast) -> Color (blue) -> Origen (German) -> Tipo (sports)."
+            }
+        ];
+
+        // --- PREGUNTAS DEL EJERCICIO 3 (LISTENING) ---
+        const listeningQuestions = [
+            {
+                id: 1,
+                textToSpeak: "I bought an economical hybrid car because petrol is extremely expensive.",
+                options: ["economic", "economical", "economy", "historical"],
+                correct: "economical",
+                explanation: "Se usa 'economical' porque se refiere a un bajo consumo de dinero o recursos (ahorrativo)."
+            },
+            {
+                id: 2,
+                textToSpeak: "Mozart is probably the best known classical composer of his generation.",
+                options: ["classic", "classical", "classically", "classy"],
+                correct: "classical",
+                explanation: "Se usa 'classical' para referirse a géneros artísticos y música formal de la tradición histórica."
+            },
+            {
+                id: 3,
+                textToSpeak: "We were extremely relieved that we had passed the B2 exam.",
+                options: ["relief", "relieving", "relieved", "unreliable"],
+                correct: "relieved",
+                explanation: "Se utiliza 'relieved' (aliviados) para expresar cómo se sentían los estudiantes tras el examen."
+            }
+        ];
+
+        // --- PREGUNTAS DEL EJERCICIO 4 (READING COMPREHENSION) ---
+        const readingQuestions = [
+            {
+                id: 1,
+                question: "Why did the siblings rent a hybrid car?",
+                options: [
+                    { letter: "A", text: "Because they wanted to visit historic castles.", correct: false },
+                    { letter: "B", text: "Because it is more economical since petrol is expensive.", correct: true },
+                    { letter: "C", text: "Because the Scottish Highlands roads require it.", correct: false },
+                    { letter: "D", text: "Because they made a careless mistake.", correct: false }
+                ],
+                explanation: "El texto indica: 'Since petrol is extremely expensive these days, we rented a hybrid car, which turned out to be incredibly economical'."
+            },
+            {
+                id: 2,
+                question: "What does the author mean by a 'tricky' road?",
+                options: [
+                    { letter: "A", text: "A straight and safe highway.", correct: false },
+                    { letter: "B", text: "A path filled with beautiful trees.", correct: false },
+                    { letter: "C", text: "A complicated and difficult route.", correct: true },
+                    { letter: "D", text: "A completely blocked road.", correct: false }
+                ],
+                explanation: "'Tricky' significa complicado, difícil o engañoso, lo cual se comprueba porque casi se pierden sin GPS."
+            },
+            {
+                id: 3,
+                question: "How did the siblings feel after reaching the B&B?",
+                options: [
+                    { letter: "A", text: "They were highly apologetic.", correct: false },
+                    { letter: "B", text: "They felt miserable.", correct: false },
+                    { letter: "C", text: "They were deeply relieved to be safe.", correct: true },
+                    { letter: "D", text: "They were childishly excited.", correct: false }
+                ],
+                explanation: "El texto dice literalmente: 'We were immensely relieved to be safe'."
+            }
+        ];
+
+        // --- ESTADO GLOBAL DE LA PLATAFORMA ---
+        let globalAnswers = {};
+        let userReorders = {};
+        let activeAIQuizAnswers = {};
+
+        // --- FUNCIÓN DE CAMBIO DE PESTAÑA ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-sm transition text-slate-600 hover:bg-slate-100";
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if (tabId === 'tutor-ia') {
+                activeBtn.className = "tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-bold text-sm transition bg-pink-100 text-pink-700 border-l-4 border-pink-600";
+            } else {
+                activeBtn.className = "tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-sm transition bg-indigo-50 text-indigo-700 border-l-4 border-indigo-600";
+            }
+        }
+
+        // --- ACORDEÓN DE TEORÍA ---
+        function toggleAccordion(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(`icon-${id}`);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                el.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // --- DICCIONARIO DE VOCABULARIO: INICIALIZACIÓN ---
+        function renderVocabulary(data) {
+            const sorted = [...data].sort((a, b) => a.base.localeCompare(b.base));
+            const tbody = document.getElementById('vocab-table-body');
+            tbody.innerHTML = sorted.map(item => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="px-6 py-4 font-bold text-slate-800">${item.base} <span class="text-xs text-slate-400 font-normal">(${item.type})</span></td>
+                    <td class="px-6 py-4 font-extrabold text-indigo-700">${item.adj}</td>
+                    <td class="px-6 py-4"><span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs font-semibold rounded-md border border-indigo-100">${item.suffix}</span></td>
+                    <td class="px-6 py-4 text-slate-500 font-medium">${item.es}</td>
+                    <td class="px-6 py-4 text-xs text-slate-500 italic max-w-xs leading-normal">"${item.example}"</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterVocabulary() {
+            const query = document.getElementById('vocab-search').value.toLowerCase();
+            const filtered = vocabularyDb.filter(item => 
+                item.base.toLowerCase().includes(query) || 
+                item.adj.toLowerCase().includes(query) || 
+                item.es.toLowerCase().includes(query)
+            );
+            renderVocabulary(filtered);
+        }
+
+        // --- EJERCICIO 1: FILL IN THE BLANKETS (10 PREGUNTAS) ---
+        function renderBlankets() {
+            const container = document.getElementById('blankets-container');
+            container.innerHTML = blanketQuestions.map((q, index) => `
+                <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3 transition hover:shadow-sm" id="blanket-card-${q.id}">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <span class="text-xs font-bold text-indigo-600 tracking-wider">PREGUNTA ${index + 1} de 10</span>
+                        <span class="text-xs font-bold px-2 py-1 bg-slate-200 text-slate-700 rounded-lg">PALABRA BASE: ${q.base}</span>
+                    </div>
+                    <p class="text-slate-800 font-medium leading-relaxed">${q.sentence.replace('_________', `<input type="text" id="blanket-input-${q.id}" onkeypress="handleEnter(event, ${q.id})" placeholder="adjetivo" class="mx-1 px-3 py-1 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-bold text-indigo-700 w-36 transition-all">`)}</p>
+                    <p class="text-xs text-slate-500 italic flex items-center gap-1.5"><i class="fa-solid fa-circle-info text-indigo-400"></i> ${q.hint}</p>
+                    
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="checkBlanket(${q.id})" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition">Comprobar</button>
+                    </div>
+
+                    <div id="blanket-feedback-${q.id}" class="hidden p-3.5 rounded-xl text-xs leading-relaxed transition-all"></div>
+                </div>
+            `).join('');
+        }
+
+        function handleEnter(event, id) {
+            if (event.key === "Enter") {
+                checkBlanket(id);
+            }
+        }
+
+        function checkBlanket(id) {
+            const q = blanketQuestions.find(x => x.id === id);
+            const inputVal = document.getElementById(`blanket-input-${id}`).value.trim().toLowerCase();
+            const feedbackBox = document.getElementById(`blanket-feedback-${id}`);
+            const card = document.getElementById(`blanket-card-${id}`);
+
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+
+            if (inputVal === q.answer.toLowerCase()) {
+                globalAnswers[`blanket-${id}`] = true;
+                card.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50/20 space-y-3 transition shadow-sm";
+                feedbackBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-check text-base text-emerald-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-emerald-950 block mb-1">¡Excelente respuesta! Correcto.</strong>
+                            <p>El adjetivo de <strong>${q.base}</strong> es efectivamente <strong>${q.answer}</strong>. Se ha aplicado la regla de transformación de B2 con éxito de la Copia 21.</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                globalAnswers[`blanket-${id}`] = false;
+                card.className = "p-5 rounded-2xl border border-rose-300 bg-rose-50/20 space-y-3 transition shadow-sm";
+                feedbackBox.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-xmark text-base text-rose-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-rose-950 block mb-1">Incorrecto. Sigue intentando.</strong>
+                            <p>Tu respuesta fue: <span class="font-bold underline">${inputVal || '(vacía)'}</span>. La respuesta correcta es <span class="font-bold text-rose-900">${q.answer}</span>.</p>
+                            <p class="mt-1 text-slate-500 font-medium">Explicación: ${getBlanketExplanation(q.id)}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            updateGlobalScore();
+        }
+
+        function getBlanketExplanation(id) {
+            switch(id) {
+                case 1: return "THOUGHT se convierte en THOUGHTFUL ('considerado/atento') al añadir el sufijo -ful, que significa 'lleno de'.";
+                case 2: return "MISERY cambia la 'y' a 'i' y se le añade el sufijo -able, quedando MISERABLE ('espantoso/desdichado').";
+                case 3: return "FRIEND requiere el sufijo -ly (friendly) pero el contexto ('I don't like John as he can be quite...') exige el prefijo opuesto UN-, por ende es UNFRIENDLY.";
+                case 4: return "ENERGY cambia la consonante 'y' por 'e' antes de sumarle el sufijo -tic para dar paso a ENERGETIC.";
+                case 5: return "ECONOMY se transforma en ECONOMICAL ('ahorrativo') dado que nos referimos al gasto eficiente de dinero (late night flight).";
+                case 6: return "SCIENCE se convierte en SCIENTIFIC ('científico') aplicando el sufijo -fic y modificando la raíz.";
+                case 7: return "RELY ('confiar') requiere el adjetivo negativo porque Keith llega tarde. Se transforma en UNRELIABLE ('informal / no confiable').";
+                case 8: return "RESPONSE exige el prefijo negativo de asimilación IR- y el sufijo -ible para formar IRRESPONSIBLE.";
+                case 9: return "ENVY ('envidia') se transforma en ENVIOUS ('envidioso') sustituyendo la 'y' por la 'i' antes de colocar -ous.";
+                case 10: return "CARE en este contexto exige el sufijo de carencia -less, formando CARELESS ('descuidado'), causante de cometer errores fáciles.";
+                default: return "";
+            }
+        }
+
+        function resetBlankets() {
+            blanketQuestions.forEach(q => {
+                const inputEl = document.getElementById(`blanket-input-${q.id}`);
+                if (inputEl) inputEl.value = "";
+                const feedbackBox = document.getElementById(`blanket-feedback-${q.id}`);
+                if (feedbackBox) feedbackBox.classList.add('hidden');
+                const card = document.getElementById(`blanket-card-${q.id}`);
+                if (card) card.className = "p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3 transition hover:shadow-sm";
+                delete globalAnswers[`blanket-${q.id}`];
+            });
+            updateGlobalScore();
+        }
+
+        // --- EJERCICIO 2: ORDEN DE ADJETIVOS (SENTENCE REORDERING) ---
+        function renderReorder() {
+            const container = document.getElementById('reorder-container');
+            container.innerHTML = reorderQuestions.map((q, index) => {
+                const shuffled = [...q.words].sort(() => Math.random() - 0.5);
+                userReorders[q.id] = [];
+                
+                return `
+                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/30 space-y-4" id="reorder-card-${q.id}">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-indigo-600 tracking-wider">ORACIÓN ${index + 1}</span>
+                            <p class="text-xs text-slate-500 italic"><i class="fa-solid fa-circle-question"></i> Haz clic en las tarjetas de abajo para ordenarlas</p>
+                        </div>
+
+                        <!-- Espacio de construcción de la frase -->
+                        <div class="min-h-12 p-3 bg-white border-2 border-dashed border-slate-200 rounded-xl flex flex-wrap gap-2 items-center" id="reorder-target-${q.id}">
+                            <span class="text-slate-400 text-xs italic pointer-events-none select-none">Tu frase aparecerá aquí...</span>
+                        </div>
+
+                        <!-- Bloques desordenados para seleccionar -->
+                        <div class="flex flex-wrap gap-2" id="reorder-source-${q.id}">
+                            ${shuffled.map((word, wIdx) => `
+                                <button onclick="selectWord(${q.id}, '${word}', this)" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg shadow-sm border border-slate-200 transition-all transform active:scale-95">
+                                    ${word}
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="checkReorder(${q.id})" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition">Verificar Orden</button>
+                            <button onclick="resetReorder(${q.id})" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition">Limpiar</button>
+                        </div>
+
+                        <div id="reorder-feedback-${q.id}" class="hidden p-3.5 rounded-xl text-xs leading-relaxed border"></div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectWord(id, word, btn) {
+            const target = document.getElementById(`reorder-target-${id}`);
+            const placeholder = target.querySelector('span');
+            if (placeholder) {
+                target.innerHTML = '';
+            }
+
+            userReorders[id].push(word);
+            btn.style.display = 'none';
+
+            const tag = document.createElement('span');
+            tag.className = "px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-lg border border-indigo-100 shadow-sm animate-pulse";
+            tag.innerText = word;
+            target.appendChild(tag);
+            setTimeout(() => tag.classList.remove('animate-pulse'), 300);
+        }
+
+        function checkReorder(id) {
+            const q = reorderQuestions.find(x => x.id === id);
+            const userAns = userReorders[id].join(' ').replace(/\s+([.,!?;:])/g, '$1');
+            const correctAns = q.correctOrder.join(' ').replace(/\s+([.,!?;:])/g, '$1');
+            const feedbackBox = document.getElementById(`reorder-feedback-${id}`);
+            const card = document.getElementById(`reorder-card-${id}`);
+
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+
+            if (userAns.toLowerCase().trim() === correctAns.toLowerCase().trim()) {
+                globalAnswers[`reorder-${id}`] = true;
+                card.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50/20 space-y-4 shadow-sm";
+                feedbackBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-check text-base text-emerald-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-emerald-950 block mb-1">¡Orden perfecto!</strong>
+                            <p class="mb-1">Has aplicado la teoría de forma genial:</p>
+                            <p class="text-xs text-slate-500 font-mono italic">"${correctAns}"</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                globalAnswers[`reorder-${id}`] = false;
+                card.className = "p-5 rounded-2xl border border-rose-300 bg-rose-50/20 space-y-4 shadow-sm";
+                feedbackBox.classList.add('bg-rose-50', 'text-rose-800', 'border-rose-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-xmark text-base text-rose-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-rose-950 block mb-1">Orden Incorrecto.</strong>
+                            <p class="mb-1">Tu frase: <em>"${userAns || '(incompleta)'}"</em></p>
+                            <p class="mb-1">El orden canónico según Copia 20 es: <strong class="text-xs font-mono font-bold block text-slate-800 bg-white p-2 rounded border mt-1">${correctAns}</strong></p>
+                            <p class="text-slate-500 mt-1">${q.hint}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            updateGlobalScore();
+        }
+
+        function resetReorder(id) {
+            userReorders[id] = [];
+            const target = document.getElementById(`reorder-target-${id}`);
+            target.innerHTML = `<span class="text-slate-400 text-xs italic pointer-events-none select-none">Tu frase aparecerá aquí...</span>`;
+            
+            const source = document.getElementById(`reorder-source-${id}`);
+            const buttons = source.querySelectorAll('button');
+            buttons.forEach(btn => btn.style.display = 'inline-block');
+
+            const feedbackBox = document.getElementById(`reorder-feedback-${id}`);
+            feedbackBox.classList.add('hidden');
+            const card = document.getElementById(`reorder-card-${id}`);
+            card.className = "p-5 rounded-2xl border border-slate-200 bg-slate-50/30 space-y-4";
+            
+            delete globalAnswers[`reorder-${id}`];
+            updateGlobalScore();
+        }
+
+        // --- EJERCICIO 3: COMPRENSIÓN AUDITIVA ---
+        function renderListening() {
+            const container = document.getElementById('listening-container');
+            container.innerHTML = listeningQuestions.map((q, index) => `
+                <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-4" id="listening-card-${q.id}">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <span class="text-xs font-bold text-indigo-600 tracking-wider">PISTA DE AUDICIÓN ${index + 1}</span>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="speakText('${q.textToSpeak}')" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-volume-high"></i> Reproductor Local
+                            </button>
+                            <button onclick="speakGeminiTTS('${q.textToSpeak}', ${q.id})" id="btn-gemini-tts-${q.id}" class="px-3.5 py-1.5 bg-gradient-to-r from-pink-500 to-indigo-600 hover:from-pink-600 hover:to-indigo-700 text-white text-xs font-bold rounded-lg flex items-center gap-1.5 transition shadow-sm">
+                                <i class="fa-solid fa-sparkles"></i> Voz Premium (Gemini AI)
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-slate-600 font-semibold italic">"Escucha con atención la frase completa usando los botones de arriba antes de elegir la respuesta correcta..."</p>
+
+                    <!-- Opciones de selección -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${q.options.map(option => `
+                            <button onclick="selectListeningOption(${q.id}, '${option}')" class="px-4 py-2.5 bg-white hover:bg-indigo-50 border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl text-left transition shadow-sm flex justify-between items-center" id="listen-opt-${q.id}-${option}">
+                                <span>${option}</span>
+                                <i class="fa-regular fa-circle text-slate-300"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div id="listening-feedback-${q.id}" class="hidden p-3.5 rounded-xl text-xs leading-relaxed border"></div>
+                </div>
+            `).join('');
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85; 
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("La tecnología de dictado de voz local no está disponible en este navegador.");
+            }
+        }
+
+        // --- GEMINI AI NATIVE TTS GENERATOR ---
+        async function speakGeminiTTS(text, elementId) {
+            const btn = document.getElementById(`btn-gemini-tts-${elementId}`);
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Generando Voz...`;
+            btn.disabled = true;
+
+            try {
+                const apiKey = document.getElementById('gemini-key').value.trim();
+                const payload = {
+                    contents: [{
+                        parts: [{ text: `Say beautifully in a clear natural voice: ${text}` }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            voiceConfig: {
+                                prebuiltVoiceConfig: { voiceName: "Zephyr" } // Bright, natural voice
+                            }
+                        }
+                    }
+                };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API returned status ${response.status}. Verifica tus credenciales o el límite de solicitudes.`);
+                }
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioBase64 = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType;
+
+                if (audioBase64 && mimeType && mimeType.startsWith("audio/")) {
+                    // Extracting the sample rate dynamically
+                    let sampleRate = 24000;
+                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                    if (sampleRateMatch) {
+                        sampleRate = parseInt(sampleRateMatch[1], 10);
+                    }
+
+                    // Decode PCM16 data and write WAV file
+                    const rawBuffer = base64ToArrayBuffer(audioBase64);
+                    const pcm16 = new Int16Array(rawBuffer);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                } else {
+                    throw new Error("La API de Gemini no retornó datos de audio válidos.");
+                }
+
+            } catch (err) {
+                console.error(err);
+                showAIError(`Error de Audio IA: ${err.message}. Usando el reproductor local alternativo...`);
+                // Fallback to local browser synthesis
+                speakText(text);
+            } finally {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }
+        }
+
+        // Helper functions for audio processing
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcm16, sampleRate) {
+            const buffer = new ArrayBuffer(44 + pcm16.length * 2);
+            const view = new DataView(buffer);
+
+            // "RIFF"
+            view.setUint32(0, 0x52494646, false); 
+            // File length
+            view.setUint32(4, 36 + pcm16.length * 2, true);
+            // "WAVE"
+            view.setUint32(8, 0x57415645, false);
+            // "fmt " chunk
+            view.setUint32(12, 0x666d7420, false);
+            // Chunk size
+            view.setUint32(16, 16, true);
+            // Sample format (1 = PCM)
+            view.setUint16(20, 1, true);
+            // Channel count (1 = Mono)
+            view.setUint16(22, 1, true);
+            // Sample rate
+            view.setUint32(24, sampleRate, true);
+            // Byte rate
+            view.setUint32(28, sampleRate * 2, true);
+            // Block align
+            view.setUint16(32, 2, true);
+            // Bits per sample
+            view.setUint16(34, 16, true);
+            // "data" chunk
+            view.setUint32(36, 0x64617461, false);
+            // Chunk length
+            view.setUint32(40, pcm16.length * 2, true);
+
+            // Write PCM audio data
+            for (let i = 0; i < pcm16.length; i++) {
+                view.setInt16(44 + i * 2, pcm16[i], true);
+            }
+
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        function selectListeningOption(id, option) {
+            const q = listeningQuestions.find(x => x.id === id);
+            const feedbackBox = document.getElementById(`listening-feedback-${id}`);
+            const card = document.getElementById(`listening-card-${id}`);
+
+            q.options.forEach(opt => {
+                const btn = document.getElementById(`listen-opt-${id}-${opt}`);
+                btn.className = "px-4 py-2.5 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl text-left transition shadow-sm flex justify-between items-center";
+                btn.querySelector('i').className = "fa-regular fa-circle text-slate-300";
+            });
+
+            const selectedBtn = document.getElementById(`listen-opt-${id}-${option}`);
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+
+            if (option === q.correct) {
+                globalAnswers[`listening-${id}`] = true;
+                card.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50/20 space-y-4 shadow-sm";
+                selectedBtn.className = "px-4 py-2.5 bg-emerald-100/50 border border-emerald-300 text-emerald-800 text-sm font-bold rounded-xl text-left transition shadow-sm flex justify-between items-center";
+                selectedBtn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600";
+                
+                feedbackBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-check text-base text-emerald-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-emerald-950 block mb-1">¡Correcto! Escuchaste muy bien.</strong>
+                            <p>${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                globalAnswers[`listening-${id}`] = false;
+                card.className = "p-5 rounded-2xl border border-rose-300 bg-rose-50/20 space-y-4 shadow-sm";
+                selectedBtn.className = "px-4 py-2.5 bg-rose-100/50 border border-rose-300 text-rose-800 text-sm font-bold rounded-xl text-left transition shadow-sm flex justify-between items-center";
+                selectedBtn.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-600";
+
+                feedbackBox.classList.add('bg-rose-50', 'text-rose-800', 'border-rose-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-xmark text-base text-rose-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-rose-950 block mb-1">¡Audición errónea!</strong>
+                            <p class="mb-1">Elegiste <span class="font-bold">${option}</span>. La opción correcta para esta frase dictada es <span class="font-bold text-rose-900">${q.correct}</span>.</p>
+                            <p class="text-xs text-slate-500 mt-1">${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            updateGlobalScore();
+        }
+
+        // --- EJERCICIO 4: READING COMPREHENSION ---
+        function renderReadingQuestions() {
+            const container = document.getElementById('reading-questions-container');
+            container.innerHTML = readingQuestions.map((q, index) => `
+                <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-4" id="reading-card-${q.id}">
+                    <span class="text-xs font-bold text-indigo-600 tracking-wider block">PREGUNTA DE COMPRESIÓN ${index + 1} de ${readingQuestions.length}</span>
+                    <h4 class="font-bold text-slate-900 text-sm">${q.question}</h4>
+
+                    <!-- Listado de Opciones -->
+                    <div class="grid grid-cols-1 gap-2">
+                        ${q.options.map(opt => `
+                            <button onclick="selectReadingOption(${q.id}, ${opt.correct}, '${opt.letter}', this)" class="px-4 py-3 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl text-left transition flex items-center gap-3" id="reading-btn-${q.id}-${opt.letter}">
+                                <span class="w-6 h-6 shrink-0 bg-slate-100 text-slate-600 font-extrabold flex items-center justify-center rounded-lg border text-xs" id="reading-badge-${q.id}-${opt.letter}">${opt.letter}</span>
+                                <span>${opt.text}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div id="reading-feedback-${q.id}" class="hidden p-3.5 rounded-xl text-xs leading-relaxed border"></div>
+                </div>
+            `).join('');
+        }
+
+        function selectReadingOption(id, isCorrect, letter, btn) {
+            const q = readingQuestions.find(x => x.id === id);
+            const feedbackBox = document.getElementById(`reading-feedback-${id}`);
+            const card = document.getElementById(`reading-card-${id}`);
+
+            q.options.forEach(opt => {
+                const b = document.getElementById(`reading-btn-${id}-${opt.letter}`);
+                b.className = "px-4 py-3 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl text-left transition flex items-center gap-3";
+                const badge = document.getElementById(`reading-badge-${id}-${opt.letter}`);
+                badge.className = "w-6 h-6 shrink-0 bg-slate-100 text-slate-600 font-extrabold flex items-center justify-center rounded-lg border text-xs";
+            });
+
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+
+            if (isCorrect) {
+                globalAnswers[`reading-${id}`] = true;
+                card.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50/20 space-y-4 shadow-sm";
+                btn.className = "px-4 py-3 bg-emerald-100/50 border border-emerald-300 text-emerald-800 text-xs font-bold rounded-xl text-left transition flex items-center gap-3 shadow-sm";
+                document.getElementById(`reading-badge-${id}-${letter}`).className = "w-6 h-6 shrink-0 bg-emerald-500 text-white font-extrabold flex items-center justify-center rounded-lg text-xs";
+                
+                feedbackBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-check text-base text-emerald-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-emerald-950 block mb-1">¡Correcto! Entendiste muy bien el contexto.</strong>
+                            <p>${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                globalAnswers[`reading-${id}`] = false;
+                card.className = "p-5 rounded-2xl border border-rose-300 bg-rose-50/20 space-y-4 shadow-sm";
+                btn.className = "px-4 py-3 bg-rose-100/50 border border-rose-300 text-rose-800 text-xs font-bold rounded-xl text-left transition flex items-center gap-3 shadow-sm";
+                document.getElementById(`reading-badge-${id}-${letter}`).className = "w-6 h-6 shrink-0 bg-rose-500 text-white font-extrabold flex items-center justify-center rounded-lg text-xs";
+
+                feedbackBox.classList.add('bg-rose-50', 'text-rose-800', 'border-rose-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-xmark text-base text-rose-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-rose-950 block mb-1">Respuesta Incorrecta.</strong>
+                            <p class="mb-1">Elegiste la opción ${letter}.</p>
+                            <p class="text-xs text-slate-500 mt-1">${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            updateGlobalScore();
+        }
+
+        // --- GEMINI AI ESSAY ANALYZER ---
+        async function analyzeEssay() {
+            const textInput = document.getElementById('ai-essay-input').value.trim();
+            const resultBox = document.getElementById('ai-essay-result');
+            const btn = document.getElementById('btn-analyze-essay');
+
+            if (!textInput) {
+                showAIError("Por favor, escribe un texto en inglés para que el Tutor IA pueda realizar el análisis.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Analizando...`;
+            resultBox.classList.remove('hidden');
+            resultBox.className = "p-6 rounded-2xl border border-indigo-200 bg-white shadow-sm space-y-4 ai-pulse";
+            resultBox.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                        <i class="fa-solid fa-wand-magic-sparkles animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-800">Tutor IA de David procesando...</h4>
+                        <p class="text-[11px] text-slate-500">Analizando sintaxis, adjetivos de nivel B2 y la jerarquía de adjetivos de la Copia 20.</p>
+                    </div>
+                </div>
+            `;
+
+            try {
+                const apiKey = document.getElementById('gemini-key').value.trim();
+                const systemPrompt = `Actúa como un profesor nativo y examinador oficial de inglés de nivel B2 de Cambridge. Tu objetivo es corregir el párrafo escrito por el alumno, enfocándote de manera minuciosa en la formación de adjetivos (Copia 21) y el estricto orden de adjetivos (Copia 20: 1.Determiner, 2.Quantity, 3.Opinion, 4.Size, 5.Physical Quality, 6.Shape, 7.Age, 8.Colour, 9.Origin, 10.Material, 11.Type, 12.Purpose).
+                Retorna tu análisis estructurado estrictamente en formato HTML de manera elegante y legible, utilizando etiquetas de Tailwind CSS para el estilado. El HTML debe estar listo para insertarse en un contenedor (div). Evita bloques de código markdown (\`\`\`html) en tu respuesta final, entrega directamente las etiquetas HTML.`;
+
+                const userPrompt = `Por favor, evalúa el siguiente texto del alumno en inglés: "${textInput}". 
+                En tu respuesta, incluye:
+                1. Una corrección del párrafo (reescrita de manera perfecta si hubo errores).
+                2. Un desglose de todos los adjetivos identificados y su clasificación en las 12 categorías de la Copia 20.
+                3. Una sección "Sugerencias de Vocabulario B2 (Copia 21)" sugiriendo mejores adjetivos (ej. usar 'economical' en vez de 'cheap car', o 'unreliable' en vez de 'not reliable').
+                4. Un veredicto final rápido de nivel (¿Logra un tono natural B2?). 
+                Hazlo con un tono motivador e interactivo en español.`;
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Código de estado API ${response.status}. Verifica tu conexión.`);
+                }
+
+                const data = await response.json();
+                let outputHtml = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (!outputHtml) {
+                    throw new Error("No se obtuvo una respuesta válida del modelo de lenguaje.");
+                }
+
+                // Limpiar posibles bloques markdown si el modelo no los omitió
+                outputHtml = outputHtml.replace(/```html/g, "").replace(/```/g, "").trim();
+
+                resultBox.className = "p-6 rounded-2xl border border-indigo-200 bg-white shadow-sm space-y-4";
+                resultBox.innerHTML = outputHtml;
+
+            } catch (err) {
+                console.error(err);
+                resultBox.className = "p-6 rounded-2xl border border-rose-200 bg-rose-50 space-y-3";
+                resultBox.innerHTML = `
+                    <div class="flex gap-2 text-rose-800 text-xs">
+                        <i class="fa-solid fa-circle-exclamation text-base"></i>
+                        <div>
+                            <strong class="font-bold block mb-1">No se pudo contactar al Tutor de Inteligencia Artificial</strong>
+                            <p>${err.message}</p>
+                            <p class="mt-2 text-slate-500 font-medium">Nota: Si estás corriendo este archivo de forma local, asegúrate de colocar una API Key válida en el panel de configuración de la izquierda.</p>
+                        </div>
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-magnifying-glass-chart"></i> Analizar con Gemini IA`;
+            }
+        }
+
+        // --- GEMINI AI CUSTOM QUIZ GENERATOR ---
+        let currentAIQuestions = [];
+
+        async function generateAIQuiz() {
+            const topic = document.getElementById('ai-quiz-topic').value.trim() || "situaciones cotidianas y viajes";
+            const container = document.getElementById('ai-quiz-container');
+            const btn = document.getElementById('btn-generate-quiz');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Generando Test...`;
+            container.classList.remove('hidden');
+            container.innerHTML = `
+                <div class="p-6 text-center space-y-3">
+                    <i class="fa-solid fa-cube text-3xl text-indigo-500 animate-spin"></i>
+                    <p class="text-sm font-semibold text-slate-700">Gemini está redactando un test de 5 preguntas personalizadas sobre: <span class="text-indigo-600 italic">"${topic}"</span>...</p>
+                    <p class="text-[11px] text-slate-400">Cada pregunta te exigirá transformar un sustantivo o verbo en un adjetivo B2.</p>
+                </div>
+            `;
+
+            try {
+                const apiKey = document.getElementById('gemini-key').value.trim();
+                const systemPrompt = `Eres un creador de exámenes de inglés de nivel B2 (Cambridge/Roadmap). Genera un JSON que contenga exactamente un arreglo de 5 preguntas de tipo "fill-in-the-blank".
+                Cada objeto de pregunta dentro del arreglo JSON debe tener:
+                1. "id" (número del 1 al 5)
+                2. "base" (la palabra en mayúsculas a adjetivar, ej: "SENSE", "RELY", "MISERY")
+                3. "sentence" (la oración en inglés con un guion bajo "_________" donde va el adjetivo)
+                4. "answer" (el adjetivo correcto en minúsculas)
+                5. "explanation" (una explicación en español sobre qué sufijo o prefijo se aplicó y por qué)
+                La temática de fondo de las oraciones debe ser obligatoriamente: ${topic}. Asegúrate de usar una mezcla variada de adjetivos de la Copia 21, incluyendo adjetivos con prefijos negativos (ej: irresponsible, unreliable) y adjetivos derivados de verbos (ej: obedient, decisive). Retorna estrictamente el código JSON plano, sin formato de código markdown, para que pueda ser parseado directamente en javascript.`;
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: "Genera el JSON de examen" }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Fallo de conexión API: Código ${response.status}`);
+                }
+
+                const data = await response.json();
+                const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                currentAIQuestions = JSON.parse(jsonText);
+                activeAIQuizAnswers = {};
+
+                renderAIQuiz();
+
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `
+                    <div class="p-5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs">
+                        <i class="fa-solid fa-circle-exclamation text-base mr-1.5 align-middle"></i>
+                        <span>No se pudo generar el test interactivo: ${err.message}. Asegúrate de que tu API Key sea correcta.</span>
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-dice"></i> Generar Test`;
+            }
+        }
+
+        function renderAIQuiz() {
+            const container = document.getElementById('ai-quiz-container');
+            container.innerHTML = `
+                <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 flex items-center justify-between mb-2">
+                    <div class="text-xs font-bold text-indigo-900">
+                        <i class="fa-solid fa-sparkles text-indigo-600"></i> Test Personalizado por IA Generado con Éxito
+                    </div>
+                    <button onclick="generateAIQuiz()" class="text-xs font-extrabold text-indigo-600 hover:underline">Re-generar otro</button>
+                </div>
+                <div class="space-y-6">
+                    ${currentAIQuestions.map((q, idx) => `
+                        <div class="p-5 rounded-2xl border border-slate-200 bg-white space-y-3" id="ai-quiz-card-${q.id}">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="font-bold text-pink-600 uppercase tracking-wider">PREGUNTA IA ${idx + 1} de 5</span>
+                                <span class="font-extrabold bg-slate-100 px-2 py-1 rounded-lg text-slate-700">PALABRA BASE: ${q.base}</span>
+                            </div>
+                            <p class="text-slate-800 font-medium leading-relaxed">
+                                ${q.sentence.replace('_________', `<input type="text" id="ai-quiz-input-${q.id}" onkeypress="handleEnterAI(event, ${q.id})" placeholder="escribe aquí" class="mx-1 px-3 py-1 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-center font-bold text-pink-600 w-36 transition-all">`)}
+                            </p>
+                            
+                            <div class="flex gap-2">
+                                <button onclick="checkAIQuizAnswer(${q.id})" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg transition shadow-sm">Comprobar</button>
+                            </div>
+
+                            <div id="ai-quiz-feedback-${q.id}" class="hidden p-3.5 rounded-xl text-xs leading-relaxed border transition-all"></div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function handleEnterAI(event, id) {
+            if (event.key === "Enter") {
+                checkAIQuizAnswer(id);
+            }
+        }
+
+        function checkAIQuizAnswer(id) {
+            const q = currentAIQuestions.find(x => x.id === id);
+            const inputVal = document.getElementById(`ai-quiz-input-${id}`).value.trim().toLowerCase();
+            const feedbackBox = document.getElementById(`ai-quiz-feedback-${id}`);
+            const card = document.getElementById(`ai-quiz-card-${id}`);
+
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+
+            if (inputVal === q.answer.toLowerCase()) {
+                activeAIQuizAnswers[id] = true;
+                card.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50/10 space-y-3";
+                feedbackBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-check text-base text-emerald-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-emerald-950 block mb-1">¡Correcto! Excelente deducción.</strong>
+                            <p class="mb-1">El adjetivo de <strong>${q.base}</strong> en esta oración es <strong>${q.answer}</strong>.</p>
+                            <p class="text-slate-500">${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                activeAIQuizAnswers[id] = false;
+                card.className = "p-5 rounded-2xl border border-rose-300 bg-rose-50/10 space-y-3";
+                feedbackBox.classList.add('bg-rose-50', 'text-rose-800', 'border-rose-200');
+                feedbackBox.innerHTML = `
+                    <div class="flex gap-2">
+                        <i class="fa-solid fa-circle-xmark text-base text-rose-600 mt-0.5"></i>
+                        <div>
+                            <strong class="font-bold text-rose-950 block mb-1">Incorrecto. ¡Puedes lograrlo!</strong>
+                            <p class="mb-1">Escribiste <span class="font-bold underline">${inputVal || '(nada)'}</span>. La respuesta correcta es <span class="font-extrabold text-rose-900">${q.answer}</span>.</p>
+                            <p class="text-slate-500 font-medium">${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            updateGlobalScore();
+        }
+
+        // Utility to display errors inside the UI without blocking native alert boxes
+        function showAIError(msg) {
+            const errorBox = document.createElement('div');
+            errorBox.className = "fixed bottom-4 right-4 bg-red-600 text-white py-3 px-5 rounded-xl shadow-lg text-xs font-bold z-50 flex items-center gap-2 animate-bounce";
+            errorBox.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>${msg}</span>`;
+            document.body.appendChild(errorBox);
+            setTimeout(() => errorBox.remove(), 4000);
+        }
+
+        // --- SISTEMA DE PUNTUACIÓN GLOBAL ---
+        function updateGlobalScore() {
+            const answeredKeys = Object.keys(globalAnswers);
+            const correctCount = answeredKeys.filter(key => globalAnswers[key] === true).length;
+            
+            // Add dynamic AI test correct answers if any are solved
+            const aiKeys = Object.keys(activeAIQuizAnswers);
+            const aiCorrectCount = aiKeys.filter(key => activeAIQuizAnswers[key] === true).length;
+
+            const totalManualQuestions = blanketQuestions.length + reorderQuestions.length + listeningQuestions.length + readingQuestions.length;
+            const totalAIQuestions = currentAIQuestions.length;
+
+            const finalCorrect = correctCount + aiCorrectCount;
+            const finalTotal = totalManualQuestions + totalAIQuestions;
+
+            const scoreSummary = document.getElementById('score-summary');
+            scoreSummary.innerHTML = `${finalCorrect} / ${finalTotal} Aciertos`;
+        }
+
+        // --- CARGA INICIAL DE DATOS AL CARGAR LA PÁGINA ---
+        window.onload = function() {
+            renderVocabulary(vocabularyDb);
+            renderBlankets();
+            renderReorder();
+            renderListening();
+            renderReadingQuestions();
+        };
+    </script>
+</body>
+</html>
